@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/socket.h>
 
-int main() {
+int main(int argc, char* argv[]) {
 
     const regex ipRegex("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     bool running = true
@@ -19,7 +19,7 @@ int main() {
           //call portscan with ip and range
         //else, messgae + continue
     //closing messgae
-    return 0;
+  return 0;
 }
 
 //scanning function here - needs concurrency and stealth
