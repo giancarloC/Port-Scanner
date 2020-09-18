@@ -1,4 +1,6 @@
 # Port-Scanner
+
+## Objective
 Create a performant port scanner that is able to take in both command line inputs and user input to perform Stealth Scanning.
 
 ## Features

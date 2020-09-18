@@ -1,8 +1,8 @@
 #include <iostream>
 
-int main() {
+int main(int argc, char* argv[]) {
 
-    int running = 0
+    int running = 0;
     //while running true
       //prompt ip input
       //if they are done, running false
@@ -12,7 +12,7 @@ int main() {
           //run scan function on ip
         //else, messgae + continue
     //closing messgae
-    return 0;
+  return 0;
 }
 
 //concurrently scanning function here - input: IP
