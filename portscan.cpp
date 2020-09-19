@@ -22,14 +22,13 @@ int main(int argc, char* argv[]) {
   */
   
   //while running
-  while (true){
+  while (running){
     //prompt ip input (string)               
-    std::cout << "Enter IP Address: " << endl;
+    std::cout << "Enter IP Address (q to quit): " << endl;
     std::cin >> ip;
 
-    //if they are done, running false        - I'm not understanding what it means for user to be done and to run false afterwards. Done entering input for IP Address?
-    if () {   
-      // ******* MISSING CODE *******
+    //if they are done, running false
+    if (ip == "q") {         
       running = false;
     }
     //else
