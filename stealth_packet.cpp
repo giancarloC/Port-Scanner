@@ -4,11 +4,18 @@
 using namespace Tins;
 using namespace std;
 
+/*
+When you send a port scan with a packet and the FIN flag, you are sending the packet and not expecting a response. 
+If you do get an RST you can assume that the port is closed. 
+If you get nothing back that indicates the port is open. 
+Firewalls are looking for SYN packets, so FIN packets slip through undetected.
+*/
+
 int main(int argc, char* argv[]) {
     // The sender
     PacketSender sender;
-    // The FIN to be sent.
-    IP pkt = IP("192.168.0.1") / TCP(22, 1337);
+    // The SYN to be sent.
+    IP pkt = IP("#ur IP from ip addr show") / TCP(2000, 1337);
     pkt.rfind_pdu<TCP>().set_flag(TCP::FIN, 1);
 
     // Send and receive the response.
