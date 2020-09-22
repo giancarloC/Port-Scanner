@@ -8,6 +8,10 @@ Create a performant port scanner that is able to take in both command line input
 * Stealth Scanning
 * User Input
 
+## Libraries
+* libtins - a high-leve, multiplatform C++ network packet sniffing and crafting library
+          - must be downloaded, compiled, then used in .cpp file compilation as flag -ltins
+
 
 ## Authors 
 * AOrps
