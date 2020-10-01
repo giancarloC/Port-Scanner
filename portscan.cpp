@@ -3,10 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <regex>
+
+using namespace std;
+int portscan(string ip, int range);
+bool port_is_open(const std::string& ip, int port);
 
 int main(int argc, char* argv[]) {
 
-  const regex ipRegex("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+  const regex ipRegex("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
   bool running = true;  
   string ip;
   int range;
@@ -56,7 +63,7 @@ int main(int argc, char* argv[]) {
 }
 
   //scanning function here - needs concurrency and stealth
-  int portscan(string ip, int range){
+int portscan(string ip, int range){
 
     for(int port = 0; port <= range; port++){
       if(port_is_open(ip,port)){
@@ -70,8 +77,41 @@ int main(int argc, char* argv[]) {
 //checks if socket is open
 bool port_is_open(const std::string& ip, int port)
 {
+	bool is_open = false;
+	int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if(sockfd < 0){
+		return false;
+	}
+
+	//converts string to char array
+	char host[ip.length() + 1];
+	strcpy(host, ip.c_str());	
+	struct hostent *server = gethostbyname(host);
+	
+	if(server == NULL){
+		fprintf(stderr, "ERROR, IP address is invalid");
+		exit(0);
+	}
+
+	struct sockaddr_in serv_addr;
+	bzero((char *) &serv_addr, sizeof(serv_addr));
+	serv_addr.sin_family = AF_INET;
+	bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
+	
+	serv_addr.sin_port = htons(port);
+	if(connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
+		is_open = false;
+	else
+		is_open = true;
+
+	close(sockfd);
+	return is_open;
+
+
+	/*
     sf::TcpSocket socket;
     bool open = (socket.connect(sf::IpAddress(ip), port) == sf::Socket::Done);
     socket.disconnect();
     return open;
+    */
 }
